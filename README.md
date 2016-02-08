@@ -28,14 +28,14 @@ WND_GET_POSITION
 
 ``$5`` and ``$6`` of ``WND SET POSITION`` is optional. 
 
-In $5 you can pass one of the following options: 
+In ``$5`` you can pass one of the following options: 
 
 * HWND_NOTOPMOST -2
 * HWND_TOPMOST -1
 * HWND_TOP 0
 * HWND_BOTTOM 1
 
-In $6 you can pass one of the following options: 
+In ``$6`` you can pass one of the following options: 
 
 * SWP_NOSIZE 1
 * SWP_NOMOVE 2
