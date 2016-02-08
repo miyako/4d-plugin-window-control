@@ -5,7 +5,7 @@ Better control of window state and position
 
 | carbon | cocoa | win32 | win64 |
 |:------:|:-----:|:---------:|:---------:|
-|🆗|🆗|🆗|🆗|
+|🚫|🚫|🆗|🆗|
 
 Commands
 ---
