@@ -287,9 +287,9 @@ void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
 #if VERSIONWIN	
 	HWND window = MDI::getWindowHWND((PA_WindowRef)Param1.getIntValue());
 	HWND hWndInsertAfter = (HWND)Param6.getIntValue();
-	UINT flags = SWP_NOZORDER;
+	UINT flags = Param7.getIntValue();
 	
-	if(hWndInsertAfter != 0)
+	if (flags && hWndInsertAfter)
 	{
 		if((hWndInsertAfter != HWND_BOTTOM)
 		&& (hWndInsertAfter != HWND_NOTOPMOST)
@@ -298,7 +298,10 @@ void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
 		{
 			 hWndInsertAfter = (HWND)PA_GetHWND((PA_WindowRef)hWndInsertAfter); 
 		}
-		flags = Param7.getIntValue();
+		
+	}else
+	{
+		flags = SWP_NOZORDER;
 	}
 	
 	SetWindowPos(MDI::windowRef, 
