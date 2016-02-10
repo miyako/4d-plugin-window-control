@@ -304,7 +304,7 @@ void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
 		flags = SWP_NOZORDER;
 	}
 	
-	SetWindowPos(MDI::windowRef, 
+	SetWindowPos(window,
 				 hWndInsertAfter, 
 				 Param2.getIntValue(),
 				 Param3.getIntValue(),
@@ -330,10 +330,10 @@ void WND_GET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
 	HWND window = MDI::getWindowHWND((PA_WindowRef)Param1.getIntValue());
 	if (GetWindowRect(window, &rect))
 	{
-		Param1.setIntValue(rect.left);
-		Param2.setIntValue(rect.top);
-		Param3.setIntValue(rect.right - rect.left);
-		Param4.setIntValue(rect.bottom - rect.top);		
+		Param2.setIntValue(rect.left);
+		Param3.setIntValue(rect.top);
+		Param4.setIntValue(rect.right - rect.left);
+		Param5.setIntValue(rect.bottom - rect.top);
 	}
 #endif
 
