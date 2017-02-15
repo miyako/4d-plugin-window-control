@@ -5,24 +5,86 @@ Better control of window state and position
 
 | carbon | cocoa | win32 | win64 |
 |:------:|:-----:|:---------:|:---------:|
-|🚫|🚫|🆗|🆗|
+|||<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />|<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />|
 
-Commands
----
+###Version
 
-```c
-// --- Window Control
-WND_Is_minimized
-WND_Is_maximized
-WND_SET_TITLE
-WND_Get_title
-WND_USE_ICON_FILE
-WND_MAXIMIZE
-WND_MINIMIZE
-WND_RESTORE
-WND_SET_POSITION
-WND_GET_POSITION
+<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" />
+
+
 ```
+minimized:=WND Is minimized (window)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+minimized|INT32|
+
+```
+maximized:=WND Is maximized (window)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+maximized|INT32|
+
+```
+WND SET TITLE (window;title)
+title:=WND Get title (window)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+title|TEXT|
+
+```
+WND USE ICON FILE (window;path)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+path|TEXT|
+
+
+```
+WND MAXIMIZE (window)
+WND MINIMIZE (window)
+WND RESTORE (window)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+
+```
+WND SET POSITION (window;x;y;width;height{;orderFlag_or_insertAfterWindow{;positionFlag}})
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+x|INT32|
+y|INT32|
+width|INT32|
+height|INT32|
+orderFlag_or_insertAfterWindow|INT32|
+positionFlag|INT32|
+
+```
+WND GET POSITION (window;x;y;width;height)
+```
+
+Parameter|Type|Description
+------------|------|----
+window|INT32|
+x|INT32|
+y|INT32|
+width|INT32|
+height|INT32|
 
 **Note**: Pass the constant ``WND_MDI (-1)`` to access the MDI window.
 
