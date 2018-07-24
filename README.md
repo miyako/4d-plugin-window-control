@@ -9,7 +9,11 @@ Better control of window state and position.
 
 ### Version
 
-<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" />
+<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" /> <img src="https://user-images.githubusercontent.com/1725068/41266195-ddf767b2-6e30-11e8-9d6b-2adf6a9f57a5.png" width="32" height="32" />
+
+### Releases
+
+[2.0](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.0)
 
 ## Syntax
 
@@ -19,8 +23,8 @@ minimized:=WND Is minimized (window)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
-minimized|INT32|
+window|LONGINT|
+minimized|LONGINT|
 
 ```
 maximized:=WND Is maximized (window)
@@ -28,8 +32,8 @@ maximized:=WND Is maximized (window)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
-maximized|INT32|
+window|LONGINT|
+maximized|LONGINT|
 
 ```
 WND SET TITLE (window;title)
@@ -38,7 +42,7 @@ title:=WND Get title (window)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
+window|LONGINT|
 title|TEXT|
 
 ```
@@ -47,7 +51,7 @@ WND USE ICON FILE (window;path)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
+window|LONGINT|
 path|TEXT|
 
 
@@ -59,7 +63,7 @@ WND RESTORE (window)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
+window|LONGINT|
 
 ```
 WND SET POSITION (window;x;y;width;height{;orderFlag_or_insertAfterWindow{;positionFlag}})
@@ -67,13 +71,13 @@ WND SET POSITION (window;x;y;width;height{;orderFlag_or_insertAfterWindow{;posit
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
-x|INT32|
-y|INT32|
-width|INT32|
-height|INT32|
-orderFlag_or_insertAfterWindow|INT32|
-positionFlag|INT32|
+window|LONGINT|
+x|LONGINT|
+y|LONGINT|
+width|LONGINT|
+height|LONGINT|
+orderFlag_or_insertAfterWindow|LONGINT|
+positionFlag|LONGINT|
 
 ```
 WND GET POSITION (window;x;y;width;height)
@@ -81,11 +85,11 @@ WND GET POSITION (window;x;y;width;height)
 
 Parameter|Type|Description
 ------------|------|----
-window|INT32|
-x|INT32|
-y|INT32|
-width|INT32|
-height|INT32|
+window|LONGINT|
+x|LONGINT|
+y|LONGINT|
+width|LONGINT|
+height|LONGINT|
 
 **Note**: Pass the constant ``WND_MDI (-1)`` to access the MDI window.
 
