@@ -6628,6 +6628,20 @@ sLONG_PTR PA_GetHWND( PA_WindowRef windowRef )
 	return (sLONG_PTR)eb.fHandle;
 }
 
+// version 16.0 or greater
+// on Windows, this command return the HWND of the Main MDI window
+
+sLONG_PTR    PA_GetMainWindowHWND()
+{
+    sLONG_PTR result = NULL;
+    EngineBlock    eb = {0};
+    Call4D( EX_GET_MAIN_MDI_WINDOW, &eb);
+    sErrorCode = (PA_ErrorCode)eb.fError;
+    
+    if(eb.fError==0)
+    result = eb.fParam1;
+    return result;
+}
 
 // on Macintosh, this command can convert a 4D window reference
 // into a Macintosh regular WindowPtr

@@ -8,7 +8,10 @@
  #
  # --------------------------------------------------------------------------------*/
 
-
+#if VERSIONWIN
+#include "Shlwapi.h"
+#define MDI_WINDOW_ID (-1)
+#endif
 
 // --- Window Control
 void WND_Is_minimized(sLONG_PTR *pResult, PackagePtr pParams);

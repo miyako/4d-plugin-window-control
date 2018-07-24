@@ -381,4 +381,6 @@
 #define  EX_REDRAW_AREA								-714	// PA_RedrawArea (14.0)
 #define  EX_GET_AREA_PORT_BOUNDS					-715	// PA_GetAreaPortBounds (14.0)
 
+#define EX_GET_MAIN_MDI_WINDOW						-719	// PA_GetMainWindowHWND (16.0)	
+
 #endif

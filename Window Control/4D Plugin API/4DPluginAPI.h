@@ -817,6 +817,7 @@ char         PA_IsWindowFocused  ( PA_WindowRef windowRef );
 
 void  PA_UpdateVariables       ( );
 sLONG_PTR  PA_GetHWND               ( PA_WindowRef windowRef );
+sLONG_PTR    PA_GetMainWindowHWND();
 sLONG_PTR  PA_GetWindowPtr          ( PA_WindowRef windowRef );
 void  PA_ClosePluginWindow     ( PA_PluginRef pluginRef );
 void  PA_SetPluginWindowTitle  ( PA_PluginRef pluginRef, PA_Unichar* windowTitle );
