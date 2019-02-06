@@ -17,7 +17,6 @@
 namespace MDI
 {
 	HWND windowRef = NULL;
-	HICON iconRef = NULL;
 
 	HWND getWindowHWND(PA_WindowRef windowId)
 	{
@@ -63,10 +62,6 @@ void OnStartup()
 			}
 		} while (mdi);
 		MDI::windowRef = mdi;
-	}
-	if (MDI::windowRef)
-	{
-		MDI::iconRef = (HICON)SendMessage(MDI::windowRef, WM_GETICON, ICON_BIG, (LPARAM)0);
 	}
 #endif 
 }
@@ -283,7 +278,8 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 			SendMessage(window, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 			/* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
 			/* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
-			DestroyIcon(hIcon);
+			//DestroyIcon(hIcon);
+			//don't destroy for MDI either
 		}
 	}
 #endif
