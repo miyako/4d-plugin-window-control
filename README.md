@@ -13,7 +13,7 @@ Better control of window state and position.
 
 ### Releases
 
-[2.0](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.0)
+[2.1](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.1)
 
 ## Syntax
 
