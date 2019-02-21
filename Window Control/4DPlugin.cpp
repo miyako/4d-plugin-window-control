@@ -233,6 +233,8 @@ void WND_Get_title(sLONG_PTR *pResult, PackagePtr pParams)
 	returnValue.setReturn(pResult);
 }
 
+#define USE_LOAD_IMAGE 1
+
 void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 {
 	C_LONGINT Param1;
@@ -252,35 +254,55 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 		//system small size (currently, SHGFI_SHELLICONSIZE == SHGFI_SMALLICON
 		//https://docs.microsoft.com/en-us/windows/desktop/menurc/about-icons
 
-		if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
-			0,
-			&fileinfo,
-			sizeof(fileinfo),
-			SHGFI_SMALLICON | SHGFI_ICON))
-		{
-			HICON hIcon = fileinfo.hIcon;
-			SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-			/* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
-			/* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
-			//DestroyIcon(hIcon);
-			//but it seems this doesn't apply to MDI child windows
-		}
+#if USE_LOAD_IMAGE
+        HICON hIcon = (HICON)LoadImage(0,
+                                       (LPCTSTR)Param2.getUTF16StringPtr(),
+                                       IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        if(hIcon)
+        {
+            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+#else
+        if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
+                          0,
+                          &fileinfo,
+                          sizeof(fileinfo),
+                          SHGFI_SMALLICON | SHGFI_ICON))
+        {
+            HICON hIcon = fileinfo.hIcon;
+            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+            /* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
+            /* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
+            //DestroyIcon(hIcon);
+            //but it seems this doesn't apply to MDI child windows
+        }
+#endif
 	}
 	else
 	{
-		if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
-			0,
-			&fileinfo,
-			sizeof(fileinfo),
-			SHGFI_LARGEICON | SHGFI_ICON))
-		{
-			HICON hIcon = fileinfo.hIcon;
-			SendMessage(window, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-			/* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
-			/* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
-			//DestroyIcon(hIcon);
-			//don't destroy for MDI either
-		}
+#if USE_LOAD_IMAGE
+        HICON hIcon = (HICON)LoadImage(0,
+                                       (LPCTSTR)Param2.getUTF16StringPtr(),
+                                       IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        if(hIcon)
+        {
+            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+#else
+        if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
+                          0,
+                          &fileinfo,
+                          sizeof(fileinfo),
+                          SHGFI_LARGEICON | SHGFI_ICON))
+        {
+            HICON hIcon = fileinfo.hIcon;
+            SendMessage(window, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            /* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
+            /* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
+            //DestroyIcon(hIcon);
+            //don't destroy for MDI either
+        }
+#endif
 	}
 #endif
 }
