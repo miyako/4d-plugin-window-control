@@ -2,55 +2,55 @@
     "name": "Window Control",
     "id": 20000,
     "commands": [
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND Is minimized(&L):L",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND Is maximized(&L):L",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND SET TITLE(&L;&T)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND Get title(&L):T",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND USE ICON FILE(&L;&T)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND MAXIMIZE(&L)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND MINIMIZE(&L)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND RESTORE(&L)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND SET POSITION(&L;&L;&L;&L;&L;&L;&L)",
-                 "threadSafe": false
-                 },
-                 {
-                 "theme": "Window Control",
-                 "syntax": "WND GET POSITION(&L;&L;&L;&L;&L)",
-                 "threadSafe": false
-                 }
-                 ]
+        {
+            "theme": "Window Control",
+            "syntax": "WND Is minimized(&L):L",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND Is maximized(&L):L",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND SET TITLE(&L;&T)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND Get title(&L):T",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND USE ICON FILE(&L;&T)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND MAXIMIZE(&L)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND MINIMIZE(&L)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND RESTORE(&L)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND SET POSITION(&L;&L;&L;&L;&L;&L;&L)",
+            "threadSafe": true
+        },
+        {
+            "theme": "Window Control",
+            "syntax": "WND GET POSITION(&L;&L;&L;&L;&L)",
+            "threadSafe": true
+        }
+    ]
 }

@@ -8,9 +8,12 @@
  #
  # --------------------------------------------------------------------------------*/
 
+#include "4DPluginAPI.h"
+
 #if VERSIONWIN
 #include "Shlwapi.h"
 #define MDI_WINDOW_ID (-1)
+#define MESSAGE_TIMEOUT_MS 500
 #endif
 
 // --- Window Control
@@ -24,3 +27,15 @@ void WND_MINIMIZE(sLONG_PTR *pResult, PackagePtr pParams);
 void WND_RESTORE(sLONG_PTR *pResult, PackagePtr pParams);
 void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams);
 void WND_GET_POSITION(sLONG_PTR *pResult, PackagePtr pParams);
+
+// --- Window Control (sub)
+void ____Is_minimized(PA_PluginParameters params);
+void ____Is_maximized(PA_PluginParameters params);
+void ____SET_TITLE(PA_PluginParameters params);
+void ____Get_title(PA_PluginParameters params);
+void ____USE_ICON_FILE(PA_PluginParameters params);
+void ____MAXIMIZE(PA_PluginParameters params);
+void ____MINIMIZE(PA_PluginParameters params);
+void ____RESTORE(PA_PluginParameters params);
+void ____SET_POSITION(PA_PluginParameters params);
+void ____GET_POSITION(PA_PluginParameters params);

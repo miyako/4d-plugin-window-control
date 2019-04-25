@@ -8,8 +8,6 @@
  #
  # --------------------------------------------------------------------------------*/
 
-
-#include "4DPluginAPI.h"
 #include "4DPlugin.h"
 
 #if VERSIONWIN
@@ -71,21 +69,31 @@ void OnExit()
 #if VERSIONWIN 
 	if (MDI::windowRef)
 	{
+		DWORD_PTR ptr;
+		HICON hIcon;
+
 		wchar_t path[_MAX_PATH] = { 0 };
 		wchar_t * applicationPath = wcscpy(path, (const wchar_t *)PA_GetApplicationFullPath().fString);
-		
-		SHFILEINFO fileinfo;
-		if (SHGetFileInfo((LPCTSTR)applicationPath,
-			0,
-			&fileinfo,
-			sizeof(fileinfo),
-			SHGFI_LARGEICON | SHGFI_ICON))
+
+		hIcon = (HICON)ExtractIcon((HINSTANCE)PA_Get4DHInstance(),
+			(LPCTSTR)applicationPath, 0);
+
+		if (!hIcon)
 		{
-			HICON hIcon = fileinfo.hIcon;
-			SendMessage(MDI::windowRef, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-			/* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
-			/* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
-			DestroyIcon(hIcon);
+			SHFILEINFO fileinfo;
+			if (SHGetFileInfo((LPCTSTR)applicationPath,
+				0,
+				&fileinfo,
+				sizeof(fileinfo),
+				SHGFI_LARGEICON | SHGFI_ICON))
+			{
+				hIcon = fileinfo.hIcon;
+			}
+		}
+
+		if (hIcon)
+		{
+			SendMessageTimeoutW(MDI::windowRef, WM_SETICON, ICON_SMALL, (LPARAM)hIcon, SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
 		}
 
 	}
@@ -100,7 +108,59 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 		sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
 		PackagePtr pParams = (PackagePtr)params->fParameters;
 
-		CommandDispatcher(pProcNum, pResult, pParams); 
+        switch(pProcNum)
+        {
+            case kInitPlugin :
+            case kServerInitPlugin :
+				CommandDispatcher(pProcNum, pResult, pParams);
+				break;
+            case kDeinitPlugin:
+				PA_RunInMainProcess((PA_RunInMainProcessProcPtr)OnExit, NULL);
+                break;
+                
+                // --- Window Control
+                
+            case 1 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____Is_minimized, params);
+                break;
+                
+            case 2 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____Is_maximized, params);
+                break;
+                
+            case 3 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____SET_TITLE, params);
+                break;
+                
+            case 4 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____Get_title, params);
+                break;
+                
+            case 5 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____USE_ICON_FILE, params);
+                break;
+                
+            case 6 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____MAXIMIZE, params);
+                break;
+                
+            case 7 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____MINIMIZE, params);
+                break;
+                
+            case 8 :
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____RESTORE, params);
+                break;
+                
+            case 9:
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____SET_POSITION, params);
+                break;
+                
+            case 10:
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)____GET_POSITION, params);
+                break;
+        }
+
 	}
 	catch(...)
 	{
@@ -168,6 +228,13 @@ void CommandDispatcher (PA_long32 pProcNum, sLONG_PTR *pResult, PackagePtr pPara
 
 // -------------------------------- Window Control --------------------------------
 
+void ____Is_minimized(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_Is_minimized(pResult, pParams);
+}
 
 void WND_Is_minimized(sLONG_PTR *pResult, PackagePtr pParams)
 {
@@ -182,6 +249,14 @@ void WND_Is_minimized(sLONG_PTR *pResult, PackagePtr pParams)
 #endif
 
 	returnValue.setReturn(pResult);
+}
+
+void ____Is_maximized(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_Is_maximized(pResult, pParams);
 }
 
 void WND_Is_maximized(sLONG_PTR *pResult, PackagePtr pParams)
@@ -199,6 +274,14 @@ void WND_Is_maximized(sLONG_PTR *pResult, PackagePtr pParams)
 	returnValue.setReturn(pResult);
 }
 
+void ____SET_TITLE(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_SET_TITLE(pResult, pParams);
+}
+
 void WND_SET_TITLE(sLONG_PTR *pResult, PackagePtr pParams)
 {
 	C_LONGINT Param1;
@@ -208,9 +291,18 @@ void WND_SET_TITLE(sLONG_PTR *pResult, PackagePtr pParams)
 	Param2.fromParamAtIndex(pParams, 2);
 
 #if VERSIONWIN
+	DWORD_PTR ptr;
 	HWND window = MDI::getWindowHWND((PA_WindowRef)Param1.getIntValue());
-	SetWindowText(window, (LPCTSTR)Param2.getUTF16StringPtr());
+    SendMessageTimeoutW(window, WM_SETTEXT, 0, (LPARAM)Param2.getUTF16StringPtr(), SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
 #endif
+}
+
+void ____Get_title(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_Get_title(pResult, pParams);
 }
 
 void WND_Get_title(sLONG_PTR *pResult, PackagePtr pParams)
@@ -235,6 +327,14 @@ void WND_Get_title(sLONG_PTR *pResult, PackagePtr pParams)
 
 #define USE_LOAD_IMAGE 1
 
+void ____USE_ICON_FILE(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_USE_ICON_FILE(pResult, pParams);
+}
+
 void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 {
 	C_LONGINT Param1;
@@ -244,7 +344,8 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 	Param2.fromParamAtIndex(pParams, 2);
 
 #if VERSIONWIN
-	SHFILEINFO fileinfo;
+    DWORD_PTR ptr;
+	//SHFILEINFO fileinfo;
 	HWND window = MDI::getWindowHWND((PA_WindowRef)Param1.getIntValue());
 
 	if (IsChild(MDI::windowRef, window))
@@ -260,7 +361,7 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
                                        IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
         if(hIcon)
         {
-            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+            SendMessageTimeoutW(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon, SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
         }
 #else
         if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
@@ -270,7 +371,7 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
                           SHGFI_SMALLICON | SHGFI_ICON))
         {
             HICON hIcon = fileinfo.hIcon;
-            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+            SendMessageTimeoutW(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon, SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
             /* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
             /* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
             //DestroyIcon(hIcon);
@@ -286,7 +387,7 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
                                        IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
         if(hIcon)
         {
-            SendMessage(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+            SendMessageTimeoutW(window, WM_SETICON, ICON_SMALL, (LPARAM)hIcon, SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
         }
 #else
         if (SHGetFileInfo((LPCTSTR)Param2.getUTF16StringPtr(),
@@ -296,7 +397,7 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
                           SHGFI_LARGEICON | SHGFI_ICON))
         {
             HICON hIcon = fileinfo.hIcon;
-            SendMessage(window, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            SendMessageTimeoutW(window, WM_SETICON, ICON_BIG, (LPARAM)hIcon, SMTO_NORMAL, MESSAGE_TIMEOUT_MS, &ptr);
             /* "you are responsible for freeing it with DestroyIcon when you no longer need it" */
             /* https://docs.microsoft.com/ja-jp/windows/desktop/api/shellapi/nf-shellapi-shgetfileinfoa */
             //DestroyIcon(hIcon);
@@ -305,6 +406,14 @@ void WND_USE_ICON_FILE(sLONG_PTR *pResult, PackagePtr pParams)
 #endif
 	}
 #endif
+}
+
+void ____MAXIMIZE(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_MAXIMIZE(pResult, pParams);
 }
 
 void WND_MAXIMIZE(sLONG_PTR *pResult, PackagePtr pParams)
@@ -320,6 +429,14 @@ void WND_MAXIMIZE(sLONG_PTR *pResult, PackagePtr pParams)
 
 }
 
+void ____MINIMIZE(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_MINIMIZE(pResult, pParams);
+}
+
 void WND_MINIMIZE(sLONG_PTR *pResult, PackagePtr pParams)
 {
 	C_LONGINT Param1;
@@ -333,6 +450,14 @@ void WND_MINIMIZE(sLONG_PTR *pResult, PackagePtr pParams)
 
 }
 
+void ____RESTORE(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_RESTORE(pResult, pParams);
+}
+
 void WND_RESTORE(sLONG_PTR *pResult, PackagePtr pParams)
 {
 	C_LONGINT Param1;
@@ -343,6 +468,14 @@ void WND_RESTORE(sLONG_PTR *pResult, PackagePtr pParams)
 	HWND window = MDI::getWindowHWND((PA_WindowRef)Param1.getIntValue());
 	ShowWindow(window, SW_RESTORE);
 #endif
+}
+
+void ____SET_POSITION(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_SET_POSITION(pResult, pParams);
 }
 
 void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
@@ -392,6 +525,14 @@ void WND_SET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
 				 flags);
 #endif
 
+}
+
+void ____GET_POSITION(PA_PluginParameters params)
+{
+    sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    WND_GET_POSITION(pResult, pParams);
 }
 
 void WND_GET_POSITION(sLONG_PTR *pResult, PackagePtr pParams)
