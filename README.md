@@ -13,6 +13,8 @@ Better control of window state and position.
 
 ### Releases
 
+[2.3](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.3) fix constant groups, call in main process  
+
 [2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2)
 
 [2.1](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.1)
