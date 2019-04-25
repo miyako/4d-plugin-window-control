@@ -13,7 +13,13 @@ Better control of window state and position.
 
 ### Releases
 
+[2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2)
+
 [2.1](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.1)
+
+### Remarks
+
+On some versions of Windows 10 Pro 1809 (tested 17763.253), using ``SHGetFileInfo`` to obtain ``HICON`` seems to fail. ``LoadImage``, on the other hand, seems more stable. So the code was change in [2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2) to use ``LoadImage`` instead.
 
 ## Syntax
 
