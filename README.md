@@ -25,7 +25,7 @@ Better control of window state and position.
 
 Since 17R4, passing the ``HWMD`` of the MDI seems to hang on 4D Server. Workaround was to use ``PA_RunInMainProcess``.
 
-On some versions of Windows 10 Pro 1809 (tested 17763.253), using ``SHGetFileInfo`` to obtain ``HICON`` seems to fail. ``LoadImage``, on the other hand, seems more stable. So the code was change in [2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2) to use ``LoadImage`` instead.
+On some versions of Windows 10 Pro 1809 (tested 17763.253), using ``SHGetFileInfo`` to obtain ``HICON`` seems to fail. ``LoadImage``, on the other hand, seems more stable. So the code was changed in [2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2) to use ``LoadImage`` instead.
 
 ## Syntax
 
