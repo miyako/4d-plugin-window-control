@@ -1,25 +1,10 @@
+![version](https://img.shields.io/badge/version-17%2B-3E8B93)
+![platform](https://img.shields.io/static/v1?label=platform&message=win-64&color=blue)
+[![license](https://img.shields.io/github/license/miyako/4d-plugin-window-control)](LICENSE)
+![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-window-control/total)
+
 # 4d-plugin-window-control
 Better control of window state and position.
-
-## Platform
-
-| carbon | cocoa | win32 | win64 |
-|:------:|:-----:|:---------:|:---------:|
-|||<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />*|<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />|
-
-### Version
-
-<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" /> <img src="https://user-images.githubusercontent.com/1725068/41266195-ddf767b2-6e30-11e8-9d6b-2adf6a9f57a5.png" width="32" height="32" />
-
-\* **Remarks**: plugin seems to not work on Windows 32-bit (v17) 
-
-### Releases
-
-[2.3](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.3) fix constant groups, call in main process  
-
-[2.2](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.2)
-
-[2.1](https://github.com/miyako/4d-plugin-window-control/releases/tag/2.1)
 
 ### Remarks
 
